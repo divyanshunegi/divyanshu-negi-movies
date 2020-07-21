@@ -13,7 +13,7 @@ const Poster = ({borderRadius, movie}: PosterProps) => {
     return (
         <>
             <Animated.Image
-                source={{uri: movie.poster, cache: 'force-cache'}}
+                source={{uri: movie.poster}}
                 style={[styles.image, {borderRadius: borderRadius || 8}]}
             />
             <View style={styles.content}>
@@ -29,7 +29,7 @@ const Poster = ({borderRadius, movie}: PosterProps) => {
 const styles = StyleSheet.create({
     content: {
         padding: 16,
-        paddingTop: 16,
+        paddingTop: 20,
         borderRadius: 8,
         backgroundColor: 'rgba(0, 0, 0, 0.04)',
         width: '100%',

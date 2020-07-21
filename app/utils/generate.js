@@ -14,7 +14,7 @@ const fuzzCount = (count) => {
 };
 
 const makeRandomMovie = (i) => {
-    const movie = moviesData[i % moviesData.length];
+    const movie = moviesData[i];
     return {
         id: uuid(),
         ...movie,
@@ -37,7 +37,9 @@ const makeReviews = (movie, count) => {
 
 const generateMovies = (moviesCount, reviewsPerMovie) => {
     const movies = times((i) => makeRandomMovie(i), moviesCount);
+
     flatMap((movie) => makeReviews(movie, fuzzCount(reviewsPerMovie)), movies);
+
     return movies;
 };
 

@@ -101,7 +101,7 @@ const Modal = ({movie, position, close}: ModalProps) => {
                     springBack(y, 0, position.y),
                     springBack(borderRadius, 0, 8),
                     springBack(opacity, 1, 0),
-                    springBack(scale, 0.9, 1),
+                    springBack(scale, 0.75, 1),
                     cond(eq(clockRunning(scale.clock), 0), call([], close)),
                 ],
                 [
