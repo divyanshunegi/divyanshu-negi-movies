@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import React, {useRef, useCallback} from 'react';
+import React, {useCallback} from 'react';
 import {Animated, StatusBar, StyleSheet} from 'react-native';
 
 import generateMovies from '@utils/generate';
@@ -19,7 +19,6 @@ const style = StyleSheet.create({
 });
 
 const Splash = () => {
-    const animation = useRef<LottieView>(null);
     const navigation = useNavigation();
     const scale = new Animated.Value(1);
     const resetNavigation = useCallback(() => {
@@ -45,7 +44,6 @@ const Splash = () => {
                     source={require('../assets/splash.json')}
                     style={style.flex}
                     speed={2}
-                    ref={animation}
                     autoPlay
                     loop={false}
                     resizeMode="contain"
