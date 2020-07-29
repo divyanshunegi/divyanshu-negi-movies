@@ -6,6 +6,7 @@ import {Animated, StatusBar, StyleSheet} from 'react-native';
 import generateMovies from '@utils/generate';
 
 import type Movie from '@app/types/Movie';
+import DataManager from 'app/manager/DataManager';
 
 const style = StyleSheet.create({
     container: {
@@ -27,7 +28,7 @@ const Splash = () => {
             duration: 200,
             useNativeDriver: true,
         }).start(() => {
-            const movies: Array<Movie> = generateMovies(25, 5);
+            const movies: Array<Movie> = generateMovies(200, 100);
             navigation.reset({
                 index: 0,
                 routes: [{name: 'Start', params: {movies}}],
