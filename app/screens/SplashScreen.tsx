@@ -2,11 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, {useCallback} from 'react';
 import {Animated, StatusBar, StyleSheet} from 'react-native';
-
-import generateMovies from '@utils/generate';
-
-import type Movie from '@app/types/Movie';
-
 const style = StyleSheet.create({
     container: {
         flex: 1,
