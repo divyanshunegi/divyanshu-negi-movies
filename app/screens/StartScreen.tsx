@@ -40,15 +40,18 @@ const StartScreen = () => {
         if (movieResult.length > 0) {
             setMovies(movieResult);
         } else {
-            showConfirmDialog(getMovies());
+            showConfirmDialog(
+                'Failed to get latest movies, you want to try again ?',
+                getMovies,
+            );
         }
         setLoading(false);
     };
 
-    const showConfirmDialog = (fn) => {
+    const showConfirmDialog = (message: string, fn: any) => {
         Alert.alert(
             'Network Error',
-            'Failed to get latest movies, you want to try again ?',
+            message,
             [
                 {
                     text: 'No',
@@ -85,12 +88,24 @@ const StartScreen = () => {
         );
     };
 
+    const loadMoreMovies = async () => {
+        const movieResult = await DataManager.getMoreMovies();
+        if (movieResult.error) {
+            showConfirmDialog(
+                'Failed to load more content from server, try again',
+                loadMoreMovies,
+            );
+        } else {
+            setMovies(movieResult.movies);
+        }
+    };
+
     if (isLoading) {
         return (
             <>
                 <StatusBar barStyle="dark-content" />
                 <SafeAreaView>
-                <Placeholder />
+                    <Placeholder />
                 </SafeAreaView>
             </>
         );
@@ -105,6 +120,8 @@ const StartScreen = () => {
                     renderItem={(movie) =>
                         renderMovies(movie.item, movie.index)
                     }
+                    onEndReachedThreshold={2}
+                    onEndReached={loadMoreMovies}
                 />
                 {modal !== null && <Modal {...modal} close={close} />}
             </SafeAreaView>

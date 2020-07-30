@@ -40,10 +40,10 @@ const MovieSchema = {
 class DataManager {
     constructor() {
         this.API_CALL_LATENCY = 2000;
-        this.FAIL_PROBABILITY = 0.1; //this is the probability of failing mock calls, it could be from 0 - 1
+        this.FAIL_PROBABILITY = 0.3; //this is the probability of failing mock calls, it could be from 0 - 1
     }
 
-    getMovies = async (movieCount, castPerMovie, ratingCount) => {
+    getMovies = async () => {
         let movies = await this.getLocalMovies();
         if (movies?.length > 0) {
             return movies;
@@ -66,6 +66,20 @@ class DataManager {
             schema: [CastSchema, ReviewSchema, MovieSchema],
         });
         return realm.objects('Movie');
+    };
+
+    getMoreMovies = async () => {
+        const call = await this.simulateAPICall({
+            method: 'get',
+            castPerMovie: 5,
+            movieCount: 10,
+            ratingCount: 5,
+        });
+        if (call.status === 200) {
+            let localMovies = await this.saveMovieInDB(call.movies);
+            return {error: false, movies: localMovies};
+        }
+        return {error: true};
     };
 
     saveMovieInDB = async (movies) => {
