@@ -21,6 +21,9 @@ const Poster = ({borderRadius, movie}: PosterProps) => {
                 <Text style={styles.reviews}>{`Reviews: ${
                     movie.reviews?.length || 0
                 }`}</Text>
+                <Text style={styles.reviews}>{`Casts: ${
+                    movie.casts?.length || 0
+                }`}</Text>
             </View>
         </>
     );

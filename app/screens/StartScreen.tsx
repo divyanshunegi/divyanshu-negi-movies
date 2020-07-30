@@ -1,6 +1,6 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StatusBar, FlatList} from 'react-native';
+import {SafeAreaView, StatusBar, FlatList, Alert} from 'react-native';
 import {useValue} from 'react-native-redash';
 
 import Modal from '@components/Modal';
@@ -9,6 +9,7 @@ import Movie from '@components/Movie';
 import type MovieType from '@app/types/Movie';
 import type PositionType from '@app/types/Position';
 import DataManager from 'app/manager/DataManager';
+import Placeholder from '@components/Placeholder';
 
 interface ModalState {
     movie: MovieType;
@@ -25,6 +26,7 @@ type StartRoute = RouteProp<StartParamList, 'Start'>;
 
 const StartScreen = () => {
     const [movies, setMovies] = useState<Array<MovieType>>([]);
+    const [isLoading, setLoading] = useState<boolean>(false);
     const activeMovieId = useValue<number>(-1);
     const [modal, setModal] = useState<ModalState | null>(null);
 
@@ -33,12 +35,32 @@ const StartScreen = () => {
     }, []);
 
     const getMovies = async () => {
+        setLoading(true);
         const movieResult = await DataManager.getMovies(4, 10, 5);
         if (movieResult.status === 200) {
             setMovies(movieResult.movies);
         } else {
-            alert('Failed, to get movies list from Server');
+            showConfirmDialog();
         }
+        setLoading(false);
+    };
+
+    const showConfirmDialog = () => {
+        Alert.alert(
+            'Network Error',
+            'Failed to get latest movies, you want to try again ?',
+            [
+                {
+                    text: 'No',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Try Again',
+                    onPress: () => getMovies(),
+                },
+            ],
+            {cancelable: true},
+        );
     };
 
     const open = (index: number, movie: MovieType, position: PositionType) => {
@@ -62,6 +84,17 @@ const StartScreen = () => {
             />
         );
     };
+
+    if (isLoading) {
+        return (
+            <>
+                <StatusBar barStyle="dark-content" />
+                <SafeAreaView>
+                  <Placeholder />
+                </SafeAreaView>
+            </>
+        );
+    }
 
     return (
         <>

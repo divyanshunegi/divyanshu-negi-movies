@@ -27,10 +27,9 @@ const Splash = () => {
             duration: 200,
             useNativeDriver: true,
         }).start(() => {
-            const movies: Array<Movie> = generateMovies(200, 100, 5);
             navigation.reset({
                 index: 0,
-                routes: [{name: 'Start', params: {movies}}],
+                routes: [{name: 'Start'}],
             });
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
