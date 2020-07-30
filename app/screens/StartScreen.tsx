@@ -24,8 +24,7 @@ type StartParamList = {
 type StartRoute = RouteProp<StartParamList, 'Start'>;
 
 const StartScreen = () => {
-    const route = useRoute<StartRoute>();
-    const {movies} = route.params;
+    const [movies, setMovies] = useState<Array<MovieType>>([]);
     const activeMovieId = useValue<number>(-1);
     const [modal, setModal] = useState<ModalState | null>(null);
 
@@ -34,8 +33,12 @@ const StartScreen = () => {
     }, []);
 
     const getMovies = async () => {
-        const movies = await DataManager.getMovies(10, 10);
-        console.log(movies);
+        const movieResult = await DataManager.getMovies(2, 10);
+        if (movieResult.status === 200) {
+            setMovies(movieResult.movies);
+        } else {
+            alert('Failed, to get movies list from Server');
+        }
     };
 
     const open = (index: number, movie: MovieType, position: PositionType) => {
