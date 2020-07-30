@@ -7,11 +7,12 @@ class DataManager {
     }
 
     getMovies = async (movieCount, ratingCount) => {
-        return await this.simulateAPICall({
+        const call = await this.simulateAPICall({
             method: 'get',
-            movieCount: movieCount,
-            ratingCount: ratingCount,
+            movieCount,
+            ratingCount,
         });
+        return call;
     };
 
     simulateAPICall = async (request) => {
@@ -19,8 +20,8 @@ class DataManager {
             setTimeout(() => {
                 switch (request.method) {
                     case 'get':
-                        const movies = this.getMovies(request);
-                        if (movies) {
+                        const movies = this.makeMovies(request);
+                        if (movies.data) {
                             resolve({status: 200, movies: movies.data});
                         } else {
                             resolve({status: 404, message: 'Not Found'});
@@ -36,9 +37,9 @@ class DataManager {
         });
     };
 
-    getMovies = (request) => {
-        const fail_chance = Math.random() < this.FAIL_PROBABILITY;
-        const movies = null;
+    makeMovies = (request) => {
+        const fail_chance = false; //Math.random() < this.FAIL_PROBABILITY;
+        const movies = {};
         if (!fail_chance) {
             movies.data = generateMovies(
                 request.movieCount,

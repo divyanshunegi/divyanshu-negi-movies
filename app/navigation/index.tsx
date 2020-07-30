@@ -5,7 +5,7 @@ import {StatusBar} from 'react-native';
 import {enableScreens} from 'react-native-screens';
 
 import SplashScreen from '@screens/SplashScreen';
-import Start from '@screens/Start';
+import Start from '@screens/StartScreen';
 
 import type {StackCardInterpolationProps} from '@react-navigation/stack';
 

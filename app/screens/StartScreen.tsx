@@ -1,5 +1,5 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StatusBar, FlatList} from 'react-native';
 import {useValue} from 'react-native-redash';
 
@@ -8,6 +8,7 @@ import Movie from '@components/Movie';
 
 import type MovieType from '@app/types/Movie';
 import type PositionType from '@app/types/Position';
+import DataManager from 'app/manager/DataManager';
 
 interface ModalState {
     movie: MovieType;
@@ -22,11 +23,20 @@ type StartParamList = {
 
 type StartRoute = RouteProp<StartParamList, 'Start'>;
 
-const Start = () => {
+const StartScreen = () => {
     const route = useRoute<StartRoute>();
     const {movies} = route.params;
     const activeMovieId = useValue<number>(-1);
     const [modal, setModal] = useState<ModalState | null>(null);
+
+    useEffect(() => {
+        getMovies();
+    }, []);
+
+    const getMovies = async () => {
+        const movies = await DataManager.getMovies(10, 10);
+        console.log(movies);
+    };
 
     const open = (index: number, movie: MovieType, position: PositionType) => {
         activeMovieId.setValue(index);
@@ -66,4 +76,4 @@ const Start = () => {
     );
 };
 
-export default Start;
+export default StartScreen;

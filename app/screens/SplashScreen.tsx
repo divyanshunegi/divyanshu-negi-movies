@@ -6,7 +6,6 @@ import {Animated, StatusBar, StyleSheet} from 'react-native';
 import generateMovies from '@utils/generate';
 
 import type Movie from '@app/types/Movie';
-import DataManager from 'app/manager/DataManager';
 
 const style = StyleSheet.create({
     container: {
