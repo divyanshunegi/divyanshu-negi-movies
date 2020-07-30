@@ -3,6 +3,7 @@ import {times} from 'rambdax';
 import {v4 as uuid} from 'uuid';
 import moviesData from '@data/Movies';
 import reviewsData from '@data/Reviews';
+import castsData from '@data/Casts';
 
 const flatMap = (fn, arr) => arr.map(fn).reduce((a, b) => a.concat(b), []);
 
@@ -30,14 +31,28 @@ const makeRandomReview = (i) => {
     return review;
 };
 
+const makeRandomCast = (i) => {
+    const cast = castsData[i % castsData.length];
+    return {
+        id: uuid(),
+        ...cast,
+    };
+};
+
 const makeReviews = (movie, count) => {
     const reviews = times((i) => makeRandomReview(i), count);
     movie.reviews = reviews;
 };
 
-const generateMovies = (moviesCount, reviewsPerMovie) => {
+const makeCast = (movie, count) => {
+    const casts = times((index) => makeRandomCast(index), count);
+    movie.casts = casts;
+};
+
+const generateMovies = (moviesCount, reviewsPerMovie, castPerMovie) => {
     const movies = times((i) => makeRandomMovie(i), moviesCount);
     flatMap((movie) => makeReviews(movie, fuzzCount(reviewsPerMovie)), movies);
+    flatMap((movie) => makeCast(movie, fuzzCount(castPerMovie)), movies);
     return movies;
 };
 

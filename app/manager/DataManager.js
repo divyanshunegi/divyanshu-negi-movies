@@ -2,13 +2,14 @@ import generateMovies from '@utils/generate';
 
 class DataManager {
     constructor() {
-        this.API_CALL_LATENCY = 2000;
-        this.FAIL_PROBABILITY = 0.9; //this is the probability of failing mock calls, it could be from 0 - 1
+        this.API_CALL_LATENCY = 100;
+        this.FAIL_PROBABILITY = 0.1; //this is the probability of failing mock calls, it could be from 0 - 1
     }
 
-    getMovies = async (movieCount, ratingCount) => {
+    getMovies = async (movieCount, castPerMovie, ratingCount) => {
         const call = await this.simulateAPICall({
             method: 'get',
+            castPerMovie,
             movieCount,
             ratingCount,
         });
@@ -44,6 +45,7 @@ class DataManager {
             movies.data = generateMovies(
                 request.movieCount,
                 request.ratingCount,
+                request.castPerMovie,
             );
         }
         return movies;

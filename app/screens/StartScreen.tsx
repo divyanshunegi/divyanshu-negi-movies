@@ -33,7 +33,7 @@ const StartScreen = () => {
     }, []);
 
     const getMovies = async () => {
-        const movieResult = await DataManager.getMovies(2, 10);
+        const movieResult = await DataManager.getMovies(4, 10, 5);
         if (movieResult.status === 200) {
             setMovies(movieResult.movies);
         } else {
